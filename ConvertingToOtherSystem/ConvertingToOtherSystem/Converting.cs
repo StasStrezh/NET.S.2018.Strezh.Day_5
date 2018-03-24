@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,47 +6,59 @@ using System.Threading.Tasks;
 
 namespace ConvertingToOtherSystem
 {
-    public class Converting
+    /// <summary>
+    /// Notation class
+    /// </summary>
+    public class Notation
     {
+        private int p;
+        public const string card = "0123456789ABCDEF";
+        private int minBoarder = 2, maxBoarder = 16;
+
         /// <summary>
-        /// Converting numbers
+        /// Initialization
         /// </summary>
         /// <param name="p"></param>
-        /// <param name="num"></param>
-        public static double ConvertingNumbers(int p, string num)
+        public Notation(int p)
         {
-            if (p < 2 || p > 16)
+            if (p < minBoarder || p > maxBoarder)
             {
-                throw new ArgumentOutOfRangeException();
-            }
-            if(num.Length<0 || num.Length>31)
-            {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentException("Wrong notation. Notation must be: 2<=Notation<=16");
             }
 
-            return Convert(p, num);
+            this.p = p;
         }
-
         /// <summary>
-        /// Converting method
+        /// Two properties, for base and symbols
         /// </summary>
-        /// <param name="p"></param>
-        /// <param name="num"></param>
-        /// <returns>Result</returns>
-        private static double Convert(int p, string num)
+        public int @Base { get { return p; } }
+        public string Symbols { get { return card; } }
+
+    }
+
+    /// <summary>
+    /// Converter class
+    /// </summary>
+    public static class Converter
+    {
+        private static double Convert(string number, Notation notation)
         {
-            const string card = "0123456789ABCDEF";
-            double rank = 1, result = 0;
-            for (var i = num.Length - 1; i >= 0; i--)
+            if (String.IsNullOrEmpty(number))
             {
-                var index = card.IndexOf(num[i]);
-                if (index < 0 || index >= p)
+                throw new ArgumentNullException("Number can't be null or empty!");
+            }
+            double rank = 1, result = 0;
+            for (var i = number.Length - 1; i >= 0; i--)
+            {
+                var index = notation.Symbols.IndexOf(number[i]);
+                if (index < 0 || index >= notation.Base)
                     throw new ArgumentException();
 
                 result += rank * index;
-                rank *= p;
+                rank *= notation.Base;
             }
             return result;
         }
     }
+    
 }
