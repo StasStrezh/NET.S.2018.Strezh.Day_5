@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using ConvertingToOtherSystem;
 using NUnit.Framework;
 
@@ -19,7 +15,7 @@ namespace ConvertingToOtherSystem
         [TestCase(8, "764241", 256161)]
         public void TestConverting_ReturnResult(int p, string num, double expectedRes)
         {
-            double res = Converting.ConvertingNumbers(p, num);
+            double res = num.Convert(new Notation(p));
             Assert.AreEqual(expectedRes, res);
         }
 
@@ -27,7 +23,7 @@ namespace ConvertingToOtherSystem
         [TestCase(2, "SA123")]
         public void TestConverting_ReturnExeption(int p, string num)
         {
-            var ex = Assert.Catch<ArgumentException>(() => Converting.ConvertingNumbers(p, num));
+            var ex = Assert.Catch<ArgumentException>(() => num.Convert(new Notation(p)));
             StringAssert.Contains("Value does not fall within the expected range.", ex.Message);
         }
     }
