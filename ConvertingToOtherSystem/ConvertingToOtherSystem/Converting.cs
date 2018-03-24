@@ -41,7 +41,7 @@ namespace ConvertingToOtherSystem
     /// </summary>
     public static class Converter
     {
-        private static double Convert(string number, Notation notation)
+        public static double Convert(string number, Notation notation)
         {
             if (String.IsNullOrEmpty(number))
             {
